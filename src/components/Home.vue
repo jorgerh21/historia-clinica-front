@@ -1,10 +1,33 @@
+<script>
+import axios from "axios";
+
+export default {
+  name: "App",
+  data() {
+    return {
+      answer: {},
+    };
+  },
+  methods: {
+    async getAnswer() {
+      const { data } = await axios.get("http://localhost:8000/api/historias");
+      this.answer = data;
+    },
+  },
+  beforeMount() {
+    this.getAnswer();
+  },
+};
+</script>
 <template>
+
+<div>{{ answer }}</div>
   <div class="item">
     <i>
       <slot name="icon"></slot>
     </i>
     <div class="details">
-      <h3>
+      <h3>TESTS
         <slot name="heading"></slot>
       </h3>
       <slot></slot>
