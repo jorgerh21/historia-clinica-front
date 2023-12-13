@@ -5,13 +5,34 @@ export default {
   name: "App",
   data() {
     return {
-      answer: {},
+      answers: {},
     };
   },
   methods: {
     async getAnswer() {
-      const { data } = await axios.get("http://localhost:8000/api/historias");
-      this.answer = data;
+	console.log(this.$cookies.get("login"));
+	if(!this.$cookies.get("login")){
+	   this.$router.push('/login');
+	  }
+	  
+	  if(this.$cookies.get("tipoUsuario" ) == 1){
+	   this.$router.push('/Medico');
+	  }
+	  
+	  if(this.$cookies.get("tipoUsuario") == 2){
+	   this.$router.push('/Paciente');
+	  }
+
+	  var appToken = this.$cookies.get("appToken");
+	  console.log(appToken);
+      const { data } = await axios.get("http://localhost:8000/api/historias", {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + appToken
+                }
+            });
+	  
+      this.answers = data;
     },
   },
   beforeMount() {
@@ -20,19 +41,13 @@ export default {
 };
 </script>
 <template>
-
-<div>{{ answer }}</div>
-  <div class="item">
-    <i>
-      <slot name="icon"></slot>
-    </i>
-    <div class="details">
-      <h3>TESTS
-        <slot name="heading"></slot>
-      </h3>
-      <slot></slot>
-    </div>
-  </div>
+<p>
+<div v-for="answer in answers"
+        active-class="is-active"
+        class="link"
+        :to="{ name: 'answer', params: { id: answer.id } }">
+      {{answer.id}}. {{answer.estado}}</div>
+	  </p>
 </template>
 
 <style scoped>

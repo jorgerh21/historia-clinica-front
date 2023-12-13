@@ -1,25 +1,67 @@
+<script>
+import axios from "axios";
+
+export default {
+  name: "App",
+  data() {
+    return {
+      answers: {},
+    };
+  },
+  methods: {
+  
+    getStart(){
+	console.log(this.$cookies.get("login"));
+	  if(this.$cookies.get("login") == 'true'){
+	  console.log(this.$cookies.get("login"));
+	   this.$router.push('/');
+	  }
+	},
+	
+    async getAnswer() {
+		
+      const { data } = await axios.post("http://localhost:8000/api/login",
+		{
+            email: email.value,
+            password: password.value,
+        }
+		  );
+      this.answers = data;
+	  console.log(this.answers.user);
+	  console.log(this.answers.authorization.token);
+	  this.$cookies.set("tipoUsuario",this.answers.user.tipo_usuario_id);
+	  this.$cookies.set("login",true);
+	  this.$cookies.set("appToken",this.answers.authorization.token);
+	  console.log(this.$cookies.get("appToken"));
+	  this.$router.push('/');
+	 
+    },
+  },
+  beforeMount() {
+    this.getStart();
+  },
+};
+</script>
 <template>
-	<form action="action_page.php">
   <div class="container">
     <h1>Login</h1>
     <p>Please fill in this form to create an account.</p>
     <hr>
 
     <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" id="email" required>
+    <input type="text" placeholder="Enter Email"  v-model="email" name="email" id="email" required>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+    <label for="pzssword"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" v-model="password" name="password" id="password" required>
 
     <hr>
 
-    <button type="submit" class="registerbtn">Register</button>
+    <button @click="getAnswer" class="registerbtn">Login</button>
   </div>
 
   <div class="container signin">
     <p>Already have an account? <a href="#">Sign in</a>.</p>
   </div>
-</form>   
 </template>
 <style>
 * {box-sizing: border-box}

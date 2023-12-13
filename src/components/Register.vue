@@ -1,3 +1,26 @@
+<script>
+import axios from "axios";
+
+export default {
+  name: "App",
+  data() {
+    return {
+      answers: {},
+    };
+  },
+  methods: {
+    async getAnswer() {
+	  if(this.$cookies.get("login") === 'true'){
+	   this.$router.push('/');
+	  }
+	 
+    },
+  },
+  beforeMount() {
+    this.getAnswer();
+  },
+};
+</script>
 <template>
 	<form action="action_page.php">
   <div class="container">
