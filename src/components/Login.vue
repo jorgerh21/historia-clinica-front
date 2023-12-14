@@ -22,7 +22,7 @@ export default {
 		
       const { data } = await axios.post("http://localhost:8000/api/login",
 		{
-            email: email.value,
+            identificacion: identificacion.value,
             password: password.value,
         }
 		  );
@@ -31,10 +31,14 @@ export default {
 	  console.log(this.answers.authorization.token);
 	  this.$cookies.set("tipoUsuario",this.answers.user.tipo_usuario_id);
 	  this.$cookies.set("login",true);
+	  this.$cookies.set("userId",this.answers.user.id);
 	  this.$cookies.set("appToken",this.answers.authorization.token);
 	  console.log(this.$cookies.get("appToken"));
+	  if(this.answers.user.primer){
 	  this.$router.push('/');
-	 
+	  }else{
+	  this.$router.push('/password');
+	 }
     },
   },
   beforeMount() {
@@ -45,11 +49,18 @@ export default {
 <template>
   <div class="container">
     <h1>Login</h1>
-    <p>Please fill in this form to create an account.</p>
+    <p>Complete la informacion para ingresar al sistema.</p>
     <hr>
 
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email"  v-model="email" name="email" id="email" required>
+	<label for="tipoUsuario"><b>Tipo Usuario</b></label>
+    <select  name="tipoUsuario" id="tipoUsuario" >
+	<option value="1">Medico</option>
+	<option value="2" selected>Paciente</option>
+	</select>
+	<br>
+	
+    <label for="identificacion"><b>Identificacion</b></label>
+    <input type="text" placeholder="Ingrese su identificacion"  v-model="identificacion" name="identificacion" id="identificacion" required>
 
     <label for="pzssword"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" v-model="password" name="password" id="password" required>
@@ -60,7 +71,7 @@ export default {
   </div>
 
   <div class="container signin">
-    <p>Already have an account? <a href="#">Sign in</a>.</p>
+    <p>No tiene cuenta cree una<a href="Register">Registrarse</a>.</p>
   </div>
 </template>
 <style>

@@ -9,42 +9,79 @@ export default {
     };
   },
   methods: {
-    async getAnswer() {
+    async getStart() {
 	  if(this.$cookies.get("login") === 'true'){
 	   this.$router.push('/');
 	  }
 	 
     },
+	async getRegister() {
+		const usuario = {
+            name: nombre.value,
+            apellido: apellido.value,
+            tipoUsuario: parseInt(tipoUsuario.value),            
+			identificacion: identificacion.value,
+			email: email.value,
+			celular: celular.value,
+			ubicacion: ubicacion.value,			
+        };
+		console.log(usuario);
+      const { data } = await axios.post("http://localhost:8000/api/register",
+		      usuario
+		  );
+      this.answers = data;
+	  this.$router.push('/');
+	 
+    },
   },
   beforeMount() {
-    this.getAnswer();
+    this.getStart();
   },
 };
 </script>
 <template>
-	<form action="action_page.php">
   <div class="container">
-    <h1>Register</h1>
-    <p>Please fill in this form to create an account.</p>
+    <h1>Registrarse</h1>
+    <p>Complete este formulario para crear un usuario.</p>
+    <hr>
+	
+	<label for="tipoUsuario"><b>Tipo Usuario</b></label>
+    <select  v-model="tipoUsuario" name="tipoUsuario" id="tipoUsuario" >
+	<option value="1">Medico</option>
+	<option value="2" selected>Paciente</option>
+	</select>
+	<br>
+	
+	<label for="identificacion"><b>Identificacion</b></label>
+    <input type="text" placeholder="Ingrese Identificacion" v-model="identificacion" name="identificacion" id="identificacion" required>
+
+	<label for="nombre"><b>Nombre</b></label>
+    <input type="text" placeholder="Ingrese Nombre" v-model="nombre" name="nombre" id="nombre" required>
+
+
+	<label for="apellido"><b>Apellido</b></label>
+    <input type="text" placeholder="Ingrese Apellido" v-model="apellido" name="apellido" id="apellido" required>
+
+	<label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" v-model="email" name="email" id="email">
+
+
+    <label for="celular"><b>Celular</b></label>
+    <input type="text" placeholder="Ingrese telefono" v-model="celular" name="celular" id="celular">
+
+	<label for="ubicacion"><b>Ubicacion</b></label>
+    <input type="text" placeholder="Ingrese telefono" v-model="ubicacion" name="ubicacion" id="ubicacion">
+
+
+
     <hr>
 
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" id="email" required>
-
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
-
-    <label for="psw-repeat"><b>Repeat Password</b></label>
-    <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
-    <hr>
-
-    <button type="submit" class="registerbtn">Register</button>
+    <button @click="getRegister" class="registerbtn">Register</button>
   </div>
 
   <div class="container signin">
-    <p>Already have an account? <a href="#">Sign in</a>.</p>
-  </div>
-</form>   
+    <p>ya tiene cuenta? <a href="/login">Ingresar</a>.</p>
+  </div> 
 </template>
 <style>
 * {box-sizing: border-box}
