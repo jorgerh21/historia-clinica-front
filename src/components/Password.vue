@@ -39,7 +39,7 @@ export default {
 	  this.answers = data;
      
 	  this.$router.push('/');
-	 
+    this.$router.go(0);
     },
   },
   beforeMount() {

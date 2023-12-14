@@ -30,6 +30,7 @@ export default {
 	this.$cookies.remove('appToken');	
 	this.$cookies.remove('tipoUsuario');
 	this.$router.push('/login');
+  this.$router.go(0);
     }
   },
   computed: {

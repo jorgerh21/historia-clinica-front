@@ -30,9 +30,10 @@ export default {
 	  this.$cookies.set("appToken",this.answers.authorization.token);
 	  if(this.answers.user.primer){
 	  this.$router.push('/');
+    this.$router.go(0);
 	  }else{
 	  this.$router.push('/password');
-	 }
+	  }
     },
   },
   beforeMount() {
