@@ -10,8 +10,7 @@ export default {
   },
   methods: {
     async getAnswer() {
-	console.log(this.$cookies.get("login"));
-	if(!this.$cookies.get("login")){
+	if(!this.$cookies.get("tipoUsuario")){
 	   this.$router.push('/login');
 	  }
 	  
@@ -24,7 +23,6 @@ export default {
 	  }
 
 	  var appToken = this.$cookies.get("appToken");
-	  console.log(appToken);
       const { data } = await axios.get("http://localhost:8000/api/historias", {
                 headers: {
                     "Content-Type": "application/json",

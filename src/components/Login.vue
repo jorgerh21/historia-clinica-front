@@ -11,29 +11,23 @@ export default {
   methods: {
   
     getStart(){
-	console.log(this.$cookies.get("login"));
 	  if(this.$cookies.get("login") == 'true'){
-	  console.log(this.$cookies.get("login"));
 	   this.$router.push('/');
 	  }
 	},
 	
     async getAnswer() {
-		
       const { data } = await axios.post("http://localhost:8000/api/login",
-		{
+		    {
             identificacion: identificacion.value,
             password: password.value,
         }
 		  );
-      this.answers = data;
-	  console.log(this.answers.user);
-	  console.log(this.answers.authorization.token);
+    this.answers = data;
 	  this.$cookies.set("tipoUsuario",this.answers.user.tipo_usuario_id);
 	  this.$cookies.set("login",true);
 	  this.$cookies.set("userId",this.answers.user.id);
 	  this.$cookies.set("appToken",this.answers.authorization.token);
-	  console.log(this.$cookies.get("appToken"));
 	  if(this.answers.user.primer){
 	  this.$router.push('/');
 	  }else{

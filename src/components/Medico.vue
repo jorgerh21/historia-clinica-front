@@ -28,7 +28,6 @@ export default {
             });
 	  
       this.answers = data;
-	  console.log(this.answers);
     },
   },
   beforeMount() {

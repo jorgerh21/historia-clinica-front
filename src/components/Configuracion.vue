@@ -30,10 +30,8 @@ export default {
     },
 	async getUpdate() {
 		const usuario = {
-            name: nombre.value? nombre.value: this.answers.name,
-            apellido: apellido.value? apellido.value: this.answers.apellido,
-            tipoUsuario: tipoUsuario.value?tipoUsuario.value:this.answers.tipoUsuario,            
-			identificacion: this.answers.identificacion,
+      name: nombre.value? nombre.value: this.answers.name,
+      apellido: apellido.value? apellido.value: this.answers.apellido,            
 			email: email.value?email.value:this.answers.email,
 			celular: celular.value?celular.value:this.answers.celular,
 			ubicacion: ubicacion.value?ubicacion.value:this.answers.ubicacion,			
